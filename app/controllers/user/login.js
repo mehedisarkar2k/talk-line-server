@@ -28,7 +28,7 @@ module.exports = async (req, res, next) => {
 
         const token = generateToken({
             _id: user._id,
-            email: user.user,
+            email: user.email,
             name: `${user.firstName} ${user?.lastName || ""}`.trim(),
         });
 

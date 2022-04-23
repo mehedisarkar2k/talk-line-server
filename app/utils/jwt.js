@@ -9,4 +9,8 @@ const generateToken = (payload) => {
     });
 };
 
-module.exports = { generateToken };
+const verify = (token) => {
+    return jwt.verify(token, jwtSecret);
+};
+
+module.exports = { generateToken, verify };
