@@ -12,6 +12,7 @@ fs.readdirSync(path.join(__dirname)).forEach((file) => {
 
     if (isDirectory) {
         const subRouter = require(path.join(__dirname, file));
+
         router.use(`/${file}`, subRouter);
     }
 });

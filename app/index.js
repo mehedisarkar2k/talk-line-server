@@ -1,24 +1,42 @@
 // external imports
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
+const expressSession = require("express-session");
+const cookieParser = require("cookie-parser");
 
 // internal imports
 const config = require("../config");
 const router = require("./routes");
 
-mongoose.connect(
-    config.db_url,
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    },
-    () => {
-        console.log("connected to db");
-    }
-);
-
 const app = express();
 
+mongoose
+    .connect(config.db_url, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => {
+        console.log("connected to db");
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+
+// middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(
+    expressSession({
+        secret: config.session_secrete,
+        resave: false,
+        saveUninitialized: false,
+    })
+);
+app.use(cookieParser());
+
+// route handler
 app.get("/", (req, res) => {
     res.status(200).send("Welcome to the server");
 });
@@ -35,6 +53,7 @@ app.use((req, res, next) => {
 
 // default error handler
 app.use((err, req, res, next) => {
+    // check if the header already send
     if (res.headersSent) {
         return next("There was an error");
     }
@@ -48,4 +67,4 @@ app.use((err, req, res, next) => {
     });
 });
 
-module.exports = { app, express };
+module.exports = app;

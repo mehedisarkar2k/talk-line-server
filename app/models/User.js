@@ -32,12 +32,12 @@ const userSchema = new mongoose.Schema(
         },
         // define user details object
         details: {
-            type: Schema.Types.Mixed,
+            type: mongoose.Schema.Types.Mixed,
         },
-        friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
+        friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 
         // define the relationship between user and post
-        posts: [{ type: Schema.Types.ObjectId, ref: "Post" }],
+        posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
     },
     {
         timestamps: true,

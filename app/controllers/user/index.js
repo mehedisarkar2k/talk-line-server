@@ -1,10 +1,5 @@
-const createUser = (req, res) => {
-    const { firstName, email, password } = req.body;
+// internal imports
+const createUser = require("./createUser");
+const login = require("./login");
 
-    console.log({ firstName, email, password });
-    res.status(201);
-};
-
-const getUsers = (req, res) => {};
-
-module.exports = { createUser, getUsers };
+module.exports = { createUser, login };
