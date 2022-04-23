@@ -1,5 +1,8 @@
 const createUser = (req, res) => {
-    res.status(201).send("create user from controller");
+    const { firstName, email, password } = req.body;
+
+    console.log({ firstName, email, password });
+    res.status(201);
 };
 
 const getUsers = (req, res) => {};
