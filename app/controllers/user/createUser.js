@@ -3,7 +3,6 @@ const Joi = require("joi");
 
 // internal imports
 const User = require("../../models/User");
-const { hashedPass } = require("../../utils/bcrypt");
 
 module.exports = createUser = async (req, res, next) => {
     // new schema with joi
@@ -24,9 +23,11 @@ module.exports = createUser = async (req, res, next) => {
         if (userExist)
             return next({ status: 422, message: "User already exist" });
 
-        req.body.password = await hashedPass(req.body.password);
-
+        // req.body.password = await hashedPass(req.body.password);
         const user = new User(req.body);
+        console.log({ user });
+
+        user.password = await user.hashPassword(req.body.password);
 
         const savedUser = await user.save();
         res.status(201).send({

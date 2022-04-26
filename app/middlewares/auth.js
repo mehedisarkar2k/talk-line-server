@@ -1,22 +1,26 @@
-const { verify } = require("../utils/jwt");
+const User = require("../models/User");
 
-const verifyToken = async (req, res, next) => {
-    const headers = req.headers;
-    const authorization = headers["x-access-token"] || headers["authorization"];
-    if (!authorization) return next(new Error("No authorization provided"));
+const verifyUser = async (req, res, next) => {
+    const newUser = new User();
+    const token = req.session.token;
 
-    const token = authorization.split("Bearer ")[1];
-    if (!token) return next(new Error("Invalid authorization formate"));
+    if (!token) return next({ status: 401, message: "You are not logged in." });
 
     try {
-        const user = verify(token);
-        if (!user) return next({ status: 401, message: "Invalid token" });
+        const decode = await newUser.verifyToken(token);
+
+        const user = await User.findById(decode.sub).select(
+            "id email firstName lastName"
+        );
+
+        if (!user) return next({ status: 401, message: "Unauthenticated" });
 
         req.user = user;
+
         next();
     } catch (error) {
-        next({ status: 401, message: "Invalid token" });
+        next(error);
     }
 };
 
-module.exports = { verifyToken };
+module.exports = { verifyUser };

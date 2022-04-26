@@ -2,11 +2,11 @@
 const router = require("express").Router();
 
 // internal imports
-const { verifyUser } = require("../../controllers/auth");
-const { verifyToken } = require("../../middlewares/auth");
+const { getUser } = require("../../controllers/auth");
+const { verifyUser } = require("../../middlewares/auth");
 
-router.use("/", verifyToken);
+router.use("/", verifyUser);
 
-router.get("/", verifyUser);
+router.get("/", getUser);
 
 module.exports = router;

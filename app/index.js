@@ -37,14 +37,14 @@ const sessionStore = new MongoStore({
 
 app.use(
     expressSession({
-        secret: process.env.SESSION_SECRET,
+        secret: config.SESSION_SECRET,
         resave: false,
         saveUninitialized: true,
         store: sessionStore,
         cookie: {
             // maxAge: 24 * 60 * 60 * 1000, //1D = 1 * 24H = 24 * 60M = 24 * 60 * 60S = 24 * 60 * 60 * 1000ms
-            // maxAge: 24 * 60 * 60 * 1000,
-            maxAge: 60 * 1000,
+            maxAge: 60 * 60 * 1000,
+            // maxAge: 60 * 1000,
         },
     })
 );

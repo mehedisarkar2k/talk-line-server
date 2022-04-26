@@ -3,8 +3,6 @@ const Joi = require("joi");
 
 // internal imports
 const User = require("../../models/User");
-const { isValidPassword } = require("../../utils/bcrypt");
-const { generateToken } = require("../../utils/jwt");
 
 module.exports = async (req, res, next) => {
     const loginSchema = new Joi.object({
@@ -21,18 +19,13 @@ module.exports = async (req, res, next) => {
         if (!user)
             return next({ status: 400, message: "Invalid credentials!" });
 
-        const isValid = await isValidPassword(req.body.password, user.password);
-
+        const isValid = await user.comparePassword(req.body.password);
         if (!isValid)
             return next({ status: 400, message: "Invalid credentials!" });
 
-        const token = generateToken({
-            _id: user._id,
-            email: user.email,
-            name: `${user.firstName} ${user?.lastName || ""}`.trim(),
-        });
+        req.session.token = await user.generateToken();
 
-        res.status(200).json({ success: true, token });
+        res.status(200).json({ error: false, message: "Login successful!" });
     } catch (error) {
         next(error);
     }
