@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const expressSession = require("express-session");
 const cookieParser = require("cookie-parser");
+const MongoStore = require("connect-mongo");
 
 // internal imports
 const config = require("../config");
@@ -27,13 +28,27 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
+// session
+const sessionStore = new MongoStore({
+    mongoUrl: config.db_url,
+    collection: "sessions",
+});
+
 app.use(
     expressSession({
-        secret: config.session_secrete,
+        secret: process.env.SESSION_SECRET,
         resave: false,
-        saveUninitialized: false,
+        saveUninitialized: true,
+        store: sessionStore,
+        cookie: {
+            // maxAge: 24 * 60 * 60 * 1000, //1D = 1 * 24H = 24 * 60M = 24 * 60 * 60S = 24 * 60 * 60 * 1000ms
+            // maxAge: 24 * 60 * 60 * 1000,
+            maxAge: 60 * 1000,
+        },
     })
 );
+
 app.use(cookieParser());
 
 // route handler
