@@ -25,15 +25,18 @@ module.exports = createUser = async (req, res, next) => {
 
         // req.body.password = await hashedPass(req.body.password);
         const user = new User(req.body);
-        console.log({ user });
-
         user.password = await user.hashPassword(req.body.password);
 
         const savedUser = await user.save();
-        res.status(201).send({
-            _id: savedUser._id,
-            name: `${savedUser.firstName} ${savedUser?.lastName || ""}`.trim(),
-            email: savedUser.email,
+        res.status(201).json({
+            error: false,
+            user: {
+                _id: savedUser._id,
+                name: `${savedUser.firstName} ${
+                    savedUser?.lastName || ""
+                }`.trim(),
+                email: savedUser.email,
+            },
         });
     } catch (error) {
         next(error);
