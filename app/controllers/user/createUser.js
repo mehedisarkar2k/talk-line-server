@@ -23,7 +23,6 @@ module.exports = createUser = async (req, res, next) => {
         if (userExist)
             return next({ status: 422, message: "User already exist" });
 
-        // req.body.password = await hashedPass(req.body.password);
         const user = new User(req.body);
         user.password = await user.hashPassword(req.body.password);
 

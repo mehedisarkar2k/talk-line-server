@@ -47,12 +47,14 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.methods.generateToken = async function () {
-    return await jwt.sign(
+    const token = await jwt.sign(
         {
             sub: this._id,
         },
         process.env.JWT_SECRET
     );
+
+    return "Bearer " + token;
 };
 
 userSchema.methods.verifyToken = async function (token) {

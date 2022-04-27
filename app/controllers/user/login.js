@@ -23,9 +23,11 @@ module.exports = async (req, res, next) => {
         if (!isValid)
             return next({ status: 400, message: "Invalid credentials!" });
 
-        req.session.token = await user.generateToken();
-
-        res.status(200).json({ error: false, message: "Login successful!" });
+        res.status(200).json({
+            error: false,
+            message: "Login successful!",
+            token: await user.generateToken(),
+        });
     } catch (error) {
         next(error);
     }
