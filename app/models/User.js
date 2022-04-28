@@ -32,6 +32,9 @@ const userSchema = new mongoose.Schema(
             min: 6,
             max: 1024,
         },
+        image: {
+            type: String,
+        },
         // define user details object
         details: {
             type: mongoose.Schema.Types.Mixed,

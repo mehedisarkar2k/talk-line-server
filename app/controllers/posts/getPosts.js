@@ -12,7 +12,8 @@ module.exports = async (req, res, next) => {
         const posts = await Post.find()
             .sort({ createdAt: -1 })
             .skip(skipping)
-            .limit(+perPage);
+            .limit(+perPage)
+            .populate("author", "firstName lastName image");
 
         // calculating remaining post
         let remainPost = totalPost - totalShow;
