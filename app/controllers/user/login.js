@@ -6,8 +6,8 @@ const User = require("../../models/User");
 
 module.exports = async (req, res, next) => {
     const loginSchema = new Joi.object({
-        email: Joi.string().min(3).max(255).required().email(),
-        password: Joi.string().min(3).max(255).required(),
+        email: Joi.string().min(6).max(255).required().email(),
+        password: Joi.string().min(6).max(255).required(),
     });
 
     try {
