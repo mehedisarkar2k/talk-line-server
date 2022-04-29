@@ -6,7 +6,7 @@ const commentSchema = new mongoose.Schema(
             type: String,
             required: true,
             trim: true,
-            min: 3,
+            min: 1,
         },
         image: { type: String },
         author: {
@@ -17,7 +17,6 @@ const commentSchema = new mongoose.Schema(
         post: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
-            ref: "Post",
         },
         likes: [{ type: mongoose.Schema.Types.ObjectId }],
     },
