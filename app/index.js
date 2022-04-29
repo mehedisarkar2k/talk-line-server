@@ -25,7 +25,7 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // allow cors to all request
-app.use(cors({ origin: "*" }));
+app.use(cors());
 
 // route handler
 app.get("/", (req, res) => {
