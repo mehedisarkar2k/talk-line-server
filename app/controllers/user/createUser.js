@@ -9,8 +9,8 @@ module.exports = createUser = async (req, res, next) => {
     const userCreateSchema = new Joi.object({
         firstName: Joi.string().min(3).max(255).required(),
         lastName: Joi.string().min(3).max(255),
-        email: Joi.string().min(3).max(255).required().email(),
-        password: Joi.string().min(3).max(255).required(),
+        email: Joi.string().min(6).max(255).required().email(),
+        password: Joi.string().min(6).max(255).required(),
     });
 
     try {
@@ -23,17 +23,19 @@ module.exports = createUser = async (req, res, next) => {
         if (userExist)
             return next({ status: 422, message: "User already exist" });
 
-        // req.body.password = await hashedPass(req.body.password);
-        const user = new User(req.body);
-        console.log({ user });
-
+        const user = await new User(req.body);
         user.password = await user.hashPassword(req.body.password);
 
         const savedUser = await user.save();
-        res.status(201).send({
-            _id: savedUser._id,
-            name: `${savedUser.firstName} ${savedUser?.lastName || ""}`.trim(),
-            email: savedUser.email,
+        res.status(201).json({
+            error: false,
+            user: {
+                _id: savedUser._id,
+                name: `${savedUser.firstName} ${
+                    savedUser?.lastName || ""
+                }`.trim(),
+                email: savedUser.email,
+            },
         });
     } catch (error) {
         next(error);

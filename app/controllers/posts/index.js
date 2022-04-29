@@ -1,5 +1,4 @@
-const router = require("express").Router();
+const createPost = require("./createPost");
+const getPosts = require("./getPosts");
 
-router.get("/");
-
-module.exports = router;
+module.exports = { createPost, getPosts };
