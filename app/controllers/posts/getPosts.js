@@ -19,7 +19,7 @@ module.exports = async (req, res, next) => {
         let remainPost = totalPost - totalShow;
         remainPost = remainPost < 0 ? 0 : remainPost;
 
-        res.send({ success: true, posts, remainPost });
+        res.send({ error: false, posts, remainPost });
     } catch (error) {
         next(error);
     }
