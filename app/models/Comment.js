@@ -1,13 +1,7 @@
 const mongoose = require("mongoose");
 
-const postSchema = new mongoose.Schema(
+const commentSchema = new mongoose.Schema(
     {
-        title: {
-            type: String,
-            trim: true,
-            min: 3,
-            max: 255,
-        },
         description: {
             type: String,
             required: true,
@@ -20,13 +14,16 @@ const postSchema = new mongoose.Schema(
             required: true,
             ref: "User",
         },
-        comments: [{ type: mongoose.Schema.Types.ObjectId }],
-        likes: [],
-        // likes: [{ type: mongoose.Schema.Types.ObjectId }],
+        post: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: "Post",
+        },
+        likes: [{ type: mongoose.Schema.Types.ObjectId }],
     },
     {
         timestamps: true,
     }
 );
 
-module.exports = mongoose.model("Post", postSchema);
+module.exports = mongoose.model("Comment", commentSchema);
