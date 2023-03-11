@@ -1,6 +1,7 @@
 const { createClient } = require('redis');
+const { REDIS_HOST } = require('../../config');
 
-const redisClient = createClient();
+const redisClient = createClient({url: REDIS_HOST})
 
 redisClient.connect();
 redisClient.on('error', (err) => console.log('Redis Client Error', err));

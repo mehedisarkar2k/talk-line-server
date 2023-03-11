@@ -1,6 +1,6 @@
 const Post = require('../../models/Post');
 
-const redisClient = require('../../utils/redisClient');
+// const redisClient = require('../../utils/redisClient');
 
 module.exports = async (req, res, next) => {
   // check if the posts are in the redis cache
@@ -13,12 +13,12 @@ module.exports = async (req, res, next) => {
   const redisKey = `posts:${totalShow}`;
 
   try {
-    const cachedPosts = await redisClient.get(redisKey);
+    // const cachedPosts = await redisClient.get(redisKey);
 
-    if (cachedPosts) {
-      console.log('Serving from cache');
-      return res.send({ error: false, posts: JSON.parse(cachedPosts) });
-    }
+    // if (cachedPosts) {
+    //   console.log('Serving from cache');
+    //   return res.send({ error: false, posts: JSON.parse(cachedPosts) });
+    // }
 
     const totalPost = await Post.find().count();
 
@@ -33,7 +33,7 @@ module.exports = async (req, res, next) => {
     remainPost = remainPost < 0 ? 0 : remainPost;
 
     // set the posts in the redis cache
-    redisClient.set(redisKey, JSON.stringify(posts));
+    // redisClient.set(redisKey, 600, JSON.stringify(posts));
 
     res.send({ error: false, posts, remainPost });
   } catch (error) {
