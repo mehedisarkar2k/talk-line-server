@@ -21,6 +21,8 @@ mongoose
         console.log(err);
     });
 
+
+
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
