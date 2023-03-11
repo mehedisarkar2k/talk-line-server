@@ -9,6 +9,7 @@ const config = {
   s3AccessKey: process.env.S3_ACCESS_KEY,
   s3SecretKey: process.env.S3_SECRET_KEY,
   s3Endpoint: process.env.S3_ENDPOINT,
+  REDIS_HOST: process.env.REDIS_HOST,
 };
 
 module.exports = config;
